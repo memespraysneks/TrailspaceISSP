@@ -5,12 +5,14 @@ from integratedmodel import DQN, ReplayMemory
 class TestDQN(unittest.TestCase):
 
     def setUp(self):
+    """ Observations and actions"""
         self.n_observations = 10
         self.n_actions = 5
         self.model = DQN(self.n_observations, self.n_actions)
 
     def test_dqn_initialization(self):
-        self.assertEqual(len(list(self.model.parameters())), 6)  # 3 layers * 2 parameters per layer (weights + bias)
+    """DQN initialization"""
+        self.assertEqual(len(list(self.model.parameters())), 6)
 
     def test_dqn_forward_pass(self):
         input_tensor = torch.randn(1, self.n_observations)
@@ -27,12 +29,12 @@ class TestReplayMemory(unittest.TestCase):
         self.assertEqual(len(self.replay_memory.memory), 0)
 
     def test_memory_push(self):
-        self.replay_memory.push(1, 2, 3, 4)  # Example Transition
+        self.replay_memory.push(1, 2, 3, 4)
         self.assertEqual(len(self.replay_memory.memory), 1)
 
     def test_memory_sample(self):
         for _ in range(10):
-            self.replay_memory.push(1, 2, 3, 4)  # Add 10 transitions
+            self.replay_memory.push(1, 2, 3, 4)
         sample = self.replay_memory.sample(5)
         self.assertEqual(len(sample), 5)
 
